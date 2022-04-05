@@ -1,4 +1,4 @@
-export const Display = ({ good, neutral, bad, total }) => {
+export const Statistics = ({ good, neutral, bad, total }) => {
   return (
     <div>
       <p> Good: {good} </p>

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button } from "./components/Button";
 import { Title } from "./components/Title";
-import { Display } from "./components/Display";
+import { Statistics } from "./components/Statistics";
 
 const App = () => {
   const title = {
@@ -24,7 +24,7 @@ const App = () => {
       <Button onClick={handleNeutral} text={"Neutral"} />
       <Button onClick={handleBad} text={"Bad"} />
       <Title text={title.titles[1]} />
-      <Display good={good} neutral={neutral} bad={bad} total={total} />
+      <Statistics good={good} neutral={neutral} bad={bad} total={total} />
     </div>
   );
 };
