@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button } from "./components/Button";
+import { Votes } from "./components/Votes";
 
 const App = () => {
   const anecdotes = [
@@ -12,17 +13,28 @@ const App = () => {
     "Programming without an extremely heavy use of console.log is same as if a doctor would refuse to use x-rays or blood tests when diagnosing patients",
   ];
 
+  const startingArray = new Uint8Array(7);
   const [selected, setSelected] = useState(0);
+  const [votes, setVote] = useState([...startingArray]);
+  const nextAnecdote = () => setSelected(Math.floor(Math.random() * 7));
 
-  const nextAnectode = () => {
-    setSelected(Math.floor(Math.random() * 7));
-  };
+  const upvote = () =>
+    setVote(() => {
+      votes[selected] += 1;
+      return [...votes];
+    });
 
   return (
-    <div>
-      <div>{anecdotes[selected]}</div>
-      <Button onClick={nextAnectode} text={"random wisdom"}></Button>
-    </div>
+    <>
+      <div>
+        {anecdotes[selected]}
+        <Votes votes={votes[selected]} />
+      </div>
+      <div>
+        <Button onClick={nextAnecdote} text={"Random anecdote"} />
+        <Button onClick={upvote} text={"Upvote this anecdote"} />
+      </div>
+    </>
   );
 };
 
