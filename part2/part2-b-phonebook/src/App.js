@@ -1,4 +1,7 @@
 import { useState } from "react";
+import { Filter } from "./components/Filter";
+import { PersonForm } from "./components/PersonForm";
+import { Persons } from "./components/Persons";
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -10,21 +13,6 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterKey, setNewFilter] = useState("");
-
-  const checkPerson = (person) => persons.map((p) => p.name).includes(person);
-
-  const addNewName = (event) => {
-    event.preventDefault();
-    if (checkPerson(newName)) {
-      alert(`${newName} is already added to phonebook`);
-    } else {
-      setPersons(persons.concat(newPerson));
-      setNewName("");
-      setNewNumber("");
-    }
-  };
-
-  const filterName = (search) => persons.filter((f) => f.name.includes(search));
 
   const addPerson = (event) => {
     setNewName(event.target.value);
@@ -43,31 +31,35 @@ const App = () => {
     number: newNumber,
   };
 
+  const checkPerson = (person) => persons.map((p) => p.name).includes(person);
+
+  const addNewName = (event) => {
+    event.preventDefault();
+
+    if (checkPerson(newName)) {
+      alert(`${newName} is already registered`);
+    } else {
+      setPersons(persons.concat(newPerson));
+      setNewName("");
+      setNewNumber("");
+    }
+  };
+
+  const filterName = (search) => persons.filter((f) => f.name.includes(search));
+
   return (
     <div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input onChange={addFilter} />
-      </div>
-      <form onSubmit={addNewName}>
-        <div>
-          name: <input value={newName} onChange={addPerson} />
-        </div>
-        number: <input value={newNumber} onChange={addNumber} />
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
+      <Filter handler={addFilter} />
+      <PersonForm
+        addNewName={addNewName}
+        newName={newName}
+        addPerson={addPerson}
+        newNumber={newNumber}
+        addNumber={addNumber}
+      />
       <h2>Numbers</h2>
-      {filterKey.length !== 0 && (
-        <ul>
-          {filterKey.map((person) => (
-            <li key={person.name} style={{ listStyle: "numbers" }}>
-              {person.name} {person.number}
-            </li>
-          ))}
-        </ul>
-      )}
+      <Persons filterKey={filterKey} />
     </div>
   );
 };
