@@ -3,6 +3,7 @@ import { useState } from "react";
 const App = () => {
   const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
   const [newName, setNewName] = useState("");
+  const [newNumber, setNewNumber] = useState("");
 
   const checkPerson = (person) => persons.map((p) => p.name).includes(person);
 
@@ -13,6 +14,7 @@ const App = () => {
     } else {
       setPersons(persons.concat(newPerson));
       setNewName("");
+      setNewNumber("");
     }
   };
 
@@ -20,8 +22,13 @@ const App = () => {
     setNewName(event.target.value);
   };
 
+  const addNumber = (event) => {
+    setNewNumber(event.target.value);
+  };
+
   const newPerson = {
     name: newName,
+    number: newNumber,
   };
 
   return (
@@ -31,6 +38,7 @@ const App = () => {
         <div>
           name: <input value={newName} onChange={addPerson} />
         </div>
+        number: <input value={newNumber} onChange={addNumber} />
         <div>
           <button type="submit">add</button>
         </div>
@@ -39,7 +47,7 @@ const App = () => {
       <ul>
         {persons.map((person) => (
           <li key={person.name} style={{ listStyle: "numbers" }}>
-            {person.name}
+            {person.name} {person.number}
           </li>
         ))}
       </ul>
