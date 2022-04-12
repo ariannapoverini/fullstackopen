@@ -1,9 +1,15 @@
 import { useState } from "react";
 
 const App = () => {
-  const [persons, setPersons] = useState([{ name: "Arto Hellas" }]);
+  const [persons, setPersons] = useState([
+    { name: "Arto Hellas", number: "040-123456", id: 1 },
+    { name: "Ada Lovelace", number: "39-44-5323523", id: 2 },
+    { name: "Dan Abramov", number: "12-43-234345", id: 3 },
+    { name: "Mary Poppendieck", number: "39-23-6423122", id: 4 },
+  ]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
+  const [filterKey, setNewFilter] = useState("");
 
   const checkPerson = (person) => persons.map((p) => p.name).includes(person);
 
@@ -18,12 +24,18 @@ const App = () => {
     }
   };
 
+  const filterName = (search) => persons.filter((f) => f.name.includes(search));
+
   const addPerson = (event) => {
     setNewName(event.target.value);
   };
 
   const addNumber = (event) => {
     setNewNumber(event.target.value);
+  };
+
+  const addFilter = (event) => {
+    setNewFilter(filterName(event.target.value));
   };
 
   const newPerson = {
@@ -34,6 +46,9 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
+      <div>
+        filter shown with <input onChange={addFilter} />
+      </div>
       <form onSubmit={addNewName}>
         <div>
           name: <input value={newName} onChange={addPerson} />
@@ -44,13 +59,15 @@ const App = () => {
         </div>
       </form>
       <h2>Numbers</h2>
-      <ul>
-        {persons.map((person) => (
-          <li key={person.name} style={{ listStyle: "numbers" }}>
-            {person.name} {person.number}
-          </li>
-        ))}
-      </ul>
+      {filterKey.length !== 0 && (
+        <ul>
+          {filterKey.map((person) => (
+            <li key={person.name} style={{ listStyle: "numbers" }}>
+              {person.name} {person.number}
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 };
