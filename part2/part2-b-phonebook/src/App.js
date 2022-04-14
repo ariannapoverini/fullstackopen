@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("effect loaded");
-    axios.get("http://localhost:3001/persons").then((response) => {
+    axios.get("http://localhost:3002/persons").then((response) => {
       console.log("promise fulfilled");
       setPersons(response.data);
     });
@@ -40,12 +40,24 @@ const App = () => {
   const addNewName = (event) => {
     event.preventDefault();
 
+    const personObject = {
+      name: newName,
+      number: newNumber,
+    };
+
     if (checkPerson(newName)) {
       alert(`${newName} is already registered`);
     } else {
       setPersons(persons.concat(newPerson));
       setNewName("");
       setNewNumber("");
+
+      axios
+        .post("http://localhost:3002/persons", personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+        });
     }
   };
 
