@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useState, useEffect } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
+import phonebookService from "./services/phonebookService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -29,7 +29,7 @@ const App = () => {
 
   useEffect(() => {
     console.log("effect loaded");
-    axios.get("http://localhost:3002/persons").then((response) => {
+    phonebookService.getPersons().then((response) => {
       console.log("promise fulfilled");
       setPersons(response.data);
     });
@@ -52,12 +52,10 @@ const App = () => {
       setNewName("");
       setNewNumber("");
 
-      axios
-        .post("http://localhost:3002/persons", personObject)
-        .then((response) => {
-          setPersons(persons.concat(response.data));
-          setNewName("");
-        });
+      phonebookService.addNewPerson(personObject).then((response) => {
+        setPersons(persons.concat(response.data));
+        setNewName("");
+      });
     }
   };
 
