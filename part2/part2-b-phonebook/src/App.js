@@ -1,8 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, React } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import phonebookService from "./services/phonebookService";
+import phonebookService from "./services/PhonebookService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -59,6 +59,13 @@ const App = () => {
     }
   };
 
+  const delPerson = (person) => {
+    phonebookService.deletePerson(person.id).then((response) => {
+      return response.data;
+    });
+    setNewName("");
+  };
+
   const filterName = (search) => persons.filter((f) => f.name.includes(search));
 
   return (
@@ -73,7 +80,7 @@ const App = () => {
         addNumber={addNumber}
       />
       <h2>Numbers</h2>
-      <Persons filterKey={filterKey} />
+      <Persons filterKey={filterKey} delfunc={delPerson} />
     </div>
   );
 };

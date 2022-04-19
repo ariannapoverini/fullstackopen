@@ -10,6 +10,11 @@ const addNewPerson = (personObject) => {
   return axios.post(phonebookUrl, personObject);
 };
 
-const phonebookService = { getPersons, addNewPerson };
+const deletePerson = (id) => {
+  const request = axios.delete(`${phonebookUrl}/${id}`);
+  return request.then((response) => response.data);
+};
+
+const phonebookService = { getPersons, addNewPerson, deletePerson };
 
 export default phonebookService;
