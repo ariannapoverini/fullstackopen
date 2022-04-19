@@ -8,7 +8,7 @@ const App = () => {
   const [persons, setPersons] = useState([]);
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
-  const [filterKey, setNewFilter] = useState("");
+  const [filterKey, setNewFilter] = useState([]);
 
   const addPerson = (event) => {
     setNewName(event.target.value);
@@ -59,11 +59,12 @@ const App = () => {
     }
   };
 
-  const delPerson = (person) => {
-    phonebookService.deletePerson(person.id).then((response) => {
-      return response.data;
+  const delPerson = (id, people) => {
+    phonebookService.deletePerson(id).then((_) => {
+      const peopleWithPersonDeleted = people.filter((p) => p.id !== id);
+      setPersons(peopleWithPersonDeleted);
+      setNewFilter(peopleWithPersonDeleted);
     });
-    setNewName("");
   };
 
   const filterName = (search) => persons.filter((f) => f.name.includes(search));

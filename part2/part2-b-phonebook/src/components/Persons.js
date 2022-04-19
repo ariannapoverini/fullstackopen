@@ -1,5 +1,4 @@
 import { Button } from "./Button";
-import phonebookService from "../services/PhonebookService";
 
 export const Persons = ({ filterKey, delfunc }) => {
   return (
@@ -11,8 +10,9 @@ export const Persons = ({ filterKey, delfunc }) => {
               {person.name} {person.number}
               <Button
                 text="delete"
-                onClick={() => phonebookService.deletePerson(person.id)}
-                delfunc={delfunc}
+                onClick={() => {
+                  delfunc(person.id, filterKey);
+                }}
               />
             </li>
           ))}
