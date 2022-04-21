@@ -21,14 +21,14 @@
 // };
 
 export const PersonForm = ({
-  addNewName,
+  handleChange,
   newName,
   addPerson,
   newNumber,
   addNumber,
 }) => {
   return (
-    <form onSubmit={addNewName}>
+    <form onSubmit={handleChange}>
       <div>
         name: <input value={newName} onChange={addPerson} />
       </div>

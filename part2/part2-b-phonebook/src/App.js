@@ -37,7 +37,7 @@ const App = () => {
 
   const checkPerson = (person) => persons.map((p) => p.name).includes(person);
 
-  const addNewName = (event) => {
+  const handleChange = (event) => {
     event.preventDefault();
 
     const personObject = {
@@ -46,7 +46,24 @@ const App = () => {
     };
 
     if (checkPerson(newName)) {
-      alert(`${newName} is already registered`);
+      const modifyPerson = persons.find((p) => p.name === newName);
+
+      const peopleWithPersonModify = persons.filter(
+        (p) => p.number !== newNumber
+      );
+
+      if (
+        window.confirm(
+          `You are about to change ${modifyPerson.name}'s number. Are you sure?`
+        )
+      ) {
+        phonebookService
+          .changePerson(modifyPerson.id, personObject)
+          .then(() => {
+            setPersons(peopleWithPersonModify);
+            setNewFilter(peopleWithPersonModify);
+          });
+      }
     } else {
       setPersons(persons.concat(newPerson));
       setNewName("");
@@ -60,11 +77,15 @@ const App = () => {
   };
 
   const delPerson = (id, people) => {
-    phonebookService.deletePerson(id).then((_) => {
-      const peopleWithPersonDeleted = people.filter((p) => p.id !== id);
-      setPersons(peopleWithPersonDeleted);
-      setNewFilter(peopleWithPersonDeleted);
-    });
+    if (
+      window.confirm(`Do you really want to to delete the user number ${id}?`)
+    ) {
+      phonebookService.deletePerson(id).then(() => {
+        const peopleWithPersonDeleted = people.filter((p) => p.id !== id);
+        setPersons(peopleWithPersonDeleted);
+        setNewFilter(peopleWithPersonDeleted);
+      });
+    }
   };
 
   const filterName = (search) => persons.filter((f) => f.name.includes(search));
@@ -74,7 +95,7 @@ const App = () => {
       <h2>Phonebook</h2>
       <Filter handler={addFilter} />
       <PersonForm
-        addNewName={addNewName}
+        handleChange={handleChange}
         newName={newName}
         addPerson={addPerson}
         newNumber={newNumber}

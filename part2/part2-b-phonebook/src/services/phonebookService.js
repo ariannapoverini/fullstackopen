@@ -15,6 +15,16 @@ const deletePerson = (id) => {
   return request.then((response) => response.data);
 };
 
-const phonebookService = { getPersons, addNewPerson, deletePerson };
+const changePerson = (id, personObject) => {
+  const request = axios.put(`${phonebookUrl}/${id}`, personObject);
+  return request.then((response) => response.data);
+};
+
+const phonebookService = {
+  getPersons,
+  addNewPerson,
+  deletePerson,
+  changePerson,
+};
 
 export default phonebookService;
