@@ -1,29 +1,35 @@
 import { useState, useEffect } from "react";
+import { CountryList } from "./components/CountryList";
 
-import "./App.css";
-import countryServ from "./services/CountriesServices";
+import CountryServices from "./services/CountriesServices";
 
 function App() {
   const [countries, setNewCountries] = useState([]);
+  const [searchResult, setSearchResult] = useState([]);
 
   useEffect(() => {
-    countryServ.getCountries().then((countries) => {
+    CountryServices.getCountries().then((countries) => {
       setNewCountries(countries);
     });
-  }, []);
+  }, [searchResult]);
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+
+    const searchFilter = (search) =>
+      countries.filter((f) => f.name.common.toLowerCase().includes(search));
+    setSearchResult(searchFilter(event.target.value));
+  };
+
+  console.log(searchResult);
 
   return (
     <>
       <form>
-        Search for a country <input type="text" name="country"></input>
+        Search for a country
+        <input type="text" name="country" onChange={handleSearch}></input>
       </form>
-      <ul>
-        {countries.map((country) => (
-          <li key={country.name}>
-            {country.name.common} <button> For later </button>
-          </li>
-        ))}
-      </ul>
+      <CountryList searchResult={searchResult} />
     </>
   );
 }
