@@ -1,7 +1,7 @@
 import { CountryDetails } from "./CountryDetails";
 import { ExpandableCountryProfile } from "./ExpandableCountryProfile";
 
-export const CountryList = ({ searchResult }) => {
+export const CountryList = ({ searchResult, widget }) => {
   if (searchResult.length >= 10) {
     return (
       <ul>
@@ -9,7 +9,7 @@ export const CountryList = ({ searchResult }) => {
       </ul>
     );
   } else if (searchResult.length === 1) {
-    return <CountryDetails country={searchResult[0]} />;
+    return <CountryDetails country={searchResult[0]} widget={widget} />;
   } else {
     return (
       <ul>
@@ -17,6 +17,7 @@ export const CountryList = ({ searchResult }) => {
           <ExpandableCountryProfile
             key={country.name.common}
             country={country}
+            widget={widget}
           />
         ))}
       </ul>
