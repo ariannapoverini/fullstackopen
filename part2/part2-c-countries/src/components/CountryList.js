@@ -1,6 +1,5 @@
 import { CountryDetails } from "./CountryDetails";
-import { Button } from "./Button";
-import { useState } from "react";
+import { ExpandableCountryProfile } from "./ExpandableCountryProfile";
 
 export const CountryList = ({ searchResult }) => {
   if (searchResult.length >= 10) {
@@ -15,20 +14,12 @@ export const CountryList = ({ searchResult }) => {
     return (
       <ul>
         {searchResult.map((country) => (
-          <ExpandableCountryProfile country={country} />
+          <ExpandableCountryProfile
+            key={country.name.common}
+            country={country}
+          />
         ))}
       </ul>
     );
   }
-};
-
-const ExpandableCountryProfile = ({ country }) => {
-  const [show, setShowDetails] = useState(false);
-  return (
-    <li key={country.name.official}>
-      {country.name.common}{" "}
-      <Button onClick={() => setShowDetails(!show)} text={"show"} />
-      {show ? <CountryDetails country={country} /> : null}
-    </li>
-  );
 };
