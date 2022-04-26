@@ -59,9 +59,14 @@ const App = () => {
       ) {
         phonebookService
           .changePerson(modifyPerson.id, personObject)
-          .then(() => {
-            setPersons(peopleWithPersonModify);
-            setNewFilter(peopleWithPersonModify);
+          .then((res) => {
+            if (res.status !== 200) {
+              return;
+            } else if (res.status === 200) {
+              return phonebookService.getPersons().then((response) => {
+                setNewFilter(response.data);
+              });
+            }
           });
       }
     } else {
