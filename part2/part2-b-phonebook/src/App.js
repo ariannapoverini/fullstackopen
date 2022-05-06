@@ -2,7 +2,7 @@ import { useState, useEffect, React } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
-import phonebookService from "./services/PhonebookService";
+import phonebookService from "./services/phonebookService";
 
 const App = () => {
   const [persons, setPersons] = useState([]);
@@ -47,10 +47,6 @@ const App = () => {
 
     if (checkPerson(newName)) {
       const modifyPerson = persons.find((p) => p.name === newName);
-
-      const peopleWithPersonModify = persons.filter(
-        (p) => p.number !== newNumber
-      );
 
       if (
         window.confirm(

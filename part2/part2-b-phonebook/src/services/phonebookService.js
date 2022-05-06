@@ -16,8 +16,7 @@ const deletePerson = (id) => {
 };
 
 const changePerson = (id, personObject) => {
-  const request = axios.put(`${phonebookUrl}/${id}`, personObject);
-  return request.then((response) => response.data);
+  return axios.put(`${phonebookUrl}/${id}`, personObject);
 };
 
 const phonebookService = {
