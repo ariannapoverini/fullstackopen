@@ -2,6 +2,7 @@ import { useState, useEffect, React } from "react";
 import { Filter } from "./components/Filter";
 import { PersonForm } from "./components/PersonForm";
 import { Persons } from "./components/Persons";
+import { Notification } from "./components/Notification";
 import phonebookService from "./services/phonebookService";
 
 const App = () => {
@@ -9,6 +10,8 @@ const App = () => {
   const [newName, setNewName] = useState("");
   const [newNumber, setNewNumber] = useState("");
   const [filterKey, setNewFilter] = useState([]);
+  const [color, setColor] = useState("");
+  const [message, setMessage] = useState("");
 
   const addPerson = (event) => {
     setNewName(event.target.value);
@@ -20,6 +23,16 @@ const App = () => {
 
   const addFilter = (event) => {
     setNewFilter(filterName(event.target.value));
+  };
+
+  const Notifstyle = {
+    color: color,
+    background: `lightgrey`,
+    fontSize: `20px`,
+    borderStyle: `solid`,
+    borderRadius: `5px`,
+    padding: `10px`,
+    marginBottom: `10px`,
   };
 
   const newPerson = {
@@ -63,6 +76,9 @@ const App = () => {
                 setNewFilter(response.data);
               });
             }
+          })
+          .catch(() => {
+            handleMessage("red", ` ${modifyPerson.name} does no longer exist`);
           });
       }
     } else {
@@ -73,6 +89,7 @@ const App = () => {
       phonebookService.addNewPerson(personObject).then((response) => {
         setPersons(persons.concat(response.data));
         setNewName("");
+        handleMessage("blue", `Added ${newPerson.name}`);
       });
     }
   };
@@ -89,11 +106,20 @@ const App = () => {
     }
   };
 
+  const handleMessage = (clr, msg) => {
+    setColor(clr);
+    setMessage(msg);
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  };
+
   const filterName = (search) => persons.filter((f) => f.name.includes(search));
 
   return (
     <div>
       <h2>Phonebook</h2>
+      <Notification message={message} style={Notifstyle} />
       <Filter handler={addFilter} />
       <PersonForm
         handleChange={handleChange}
