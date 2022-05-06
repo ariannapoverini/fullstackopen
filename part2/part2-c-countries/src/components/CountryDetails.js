@@ -1,9 +1,6 @@
 import { WeatherWidget } from "./WeatherWidget";
 
-export const CountryDetails = ({ country, widget }) => {
-  const lat = country.latlng[0];
-  const long = country.latlng[1];
-
+export const CountryDetails = ({ country }) => {
   return (
     <>
       <h2>{country.name.official}</h2>
@@ -19,7 +16,7 @@ export const CountryDetails = ({ country, widget }) => {
       </ul>
       <br />
       <img src={country.flags.png} alt="flag" />
-      <WeatherWidget widget={widget} />
+      <WeatherWidget country={country} />
     </>
   );
 };

@@ -40,7 +40,7 @@ function App() {
         Search for a country
         <input type="text" name="country" onChange={handleSearch}></input>
       </form>
-      <CountryList searchResult={searchResult} widget={weatherWidget} />
+      <CountryList searchResult={searchResult} country={weatherWidget} />
     </>
   );
 }
