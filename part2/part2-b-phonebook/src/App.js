@@ -77,8 +77,9 @@ const App = () => {
               });
             }
           })
-          .catch(() => {
-            handleMessage("red", ` ${modifyPerson.name} does no longer exist`);
+          .catch((error) => {
+            console.log(error);
+            handleMessage("red", Object.values(error.response.data));
           });
       }
     } else {
@@ -86,11 +87,16 @@ const App = () => {
       setNewName("");
       setNewNumber("");
 
-      phonebookService.addNewPerson(personObject).then((response) => {
-        setPersons(persons.concat(response.data));
-        setNewName("");
-        handleMessage("blue", `Added ${newPerson.name}`);
-      });
+      phonebookService
+        .addNewPerson(personObject)
+        .then((response) => {
+          setPersons(persons.concat(response.data));
+          setNewName("");
+          handleMessage("blue", `Added ${newPerson.name}`);
+        })
+        .catch((error) => {
+          handleMessage("red", Object.values(error.response.data));
+        });
     }
   };
 
